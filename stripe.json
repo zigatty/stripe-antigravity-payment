@@ -1,0 +1,325 @@
+{
+  "name": "stripe",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "stripe-payment",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": true
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -624,
+        96
+      ],
+      "id": "1656048f-0dae-4949-84de-f50a72bdbf99",
+      "name": "Webhook",
+      "webhookId": "0802effa-0af8-48ce-88ba-4f8e481481cb"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1da164d9-0229-45b9-a088-f88f1adf9980",
+              "name": "payment_id",
+              "value": "={{$json[\"data\"][\"object\"][\"id\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "1f19024e-d965-4610-a4ab-e4b6bda5f601",
+              "name": "email",
+              "value": "={{$json[\"data\"][\"object\"][\"customer_email\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "12e252bc-9b40-4064-93a4-0108ce63c93e",
+              "name": "amount",
+              "value": "={{$json[\"data\"][\"object\"][\"amount_total\"] / 100}}",
+              "type": "string"
+            },
+            {
+              "id": "94b642e9-d57d-4a59-8953-188940456ba1",
+              "name": "currency",
+              "value": "={{$json[\"data\"][\"object\"][\"currency\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "4b854cec-bd36-4d1d-be6a-a81398035fcb",
+              "name": "status",
+              "value": "={{$json[\"data\"][\"object\"][\"payment_status\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "89192cd8-e4ac-4d35-9b12-dfe683ffc651",
+              "name": "created",
+              "value": "={{$json[\"data\"][\"object\"][\"created\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": true
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "cfaed1a8-89c6-49a9-99a7-cba1034647fc",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appo3yzbjymA3UJwi",
+          "mode": "list",
+          "cachedResultName": "payment",
+          "cachedResultUrl": "https://airtable.com/appo3yzbjymA3UJwi"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl3wMfvDpl8gsn13",
+          "mode": "list",
+          "cachedResultName": "Stripe",
+          "cachedResultUrl": "https://airtable.com/appo3yzbjymA3UJwi/tbl3wMfvDpl8gsn13"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "payment_id": "={{$json[\"payment_id\"]}}",
+            "email": "={{$json[\"email\"]}}",
+            "amount": "={{$json[\"amount\"]}}",
+            "currency": "={{$json[\"currency\"]}}",
+            "status": "={{$json[\"status\"]}}",
+            "created": "={{$json[\"created\"]}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "payment_id",
+              "displayName": "payment_id",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "amount",
+              "displayName": "amount",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "currency",
+              "displayName": "currency",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "created",
+              "displayName": "created",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "f9b097d0-0363-48ef-b0cf-5f1d699cdeca",
+      "name": "Create a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "JWQGNIDS1a9n818i",
+          "name": "Airtable Personal Access Token account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c05278c3-e091-4a97-8a8b-c853c340b737",
+              "leftValue": "={{$json[\"type\"]}}",
+              "rightValue": "checkout.session.completed",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -208,
+        96
+      ],
+      "id": "45ab0fa5-02fd-48de-94d4-a43179c56a47",
+      "name": "check event"
+    },
+    {
+      "parameters": {
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        416,
+        0
+      ],
+      "id": "fc15afd6-657f-4659-942e-dc43e15eaa94",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "type": "checkout.session.completed",
+          "data": {
+            "object": {
+              "id": "cs_test_123456789",
+              "customer": "cus_123456789",
+              "subscription": "sub_123456789",
+              "payment_status": "paid",
+              "currency": "inr",
+              "amount_total": 900,
+              "created": 1710000000,
+              "customer_details": {
+                "email": "testuser@example.com"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "check event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Create a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check event": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a record": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "fc72b24c-1f8c-4e29-8570-f7a2c43c2e0e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d2563ebcc2e0c3157928cbd6feacf93babef2924fa0714a1eb9d5738631eff7f"
+  },
+  "id": "Yz4g3rRLeEN20Hru",
+  "tags": []
+}
